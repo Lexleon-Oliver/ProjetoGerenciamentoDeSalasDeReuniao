@@ -1,8 +1,9 @@
 package com.digitalinnovationone.meetroomapi.resource;
 
-import com.digitalinnovationone.meetroomapi.RoomService.RoomService;
+import com.digitalinnovationone.meetroomapi.Service.RoomService;
 import com.digitalinnovationone.meetroomapi.dto.request.RoomDTO;
 import com.digitalinnovationone.meetroomapi.dto.response.MessageResponseDTO;
+import com.digitalinnovationone.meetroomapi.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class RoomResource {
         return roomService.getAll();
     }
 
-    @GetMapping("/rooms/id")
-    public RoomDTO getRoomById(@PathVariable Long id){
+    @GetMapping("/rooms/{id}")
+    public RoomDTO getRoomById(@PathVariable Long id) {
         return roomService.getById(id);
     }
 
@@ -34,15 +35,20 @@ public class RoomResource {
         return roomService.save(roomDTO);
     }
 
-    @PutMapping("/rooms/id")
+    @PutMapping("/rooms/{id}")
     public MessageResponseDTO updateRoom (@PathVariable Long id, @Valid @RequestBody RoomDTO roomDTO){
         return roomService.update(id,roomDTO);
     }
 
-    @DeleteMapping("/rooms/id")
+    @DeleteMapping("/rooms/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRoom(@PathVariable Long id){
-        roomService.delete(id);
+    public MessageResponseDTO deleteRoom (@PathVariable Long id){
+        return roomService.delete(id);
+
+//    @DeleteMapping("/rooms/{id}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public MessageResponseDTO deleteRoom(@PathVariable Long id){
+//       return roomService.delete(id);
 
     }
 

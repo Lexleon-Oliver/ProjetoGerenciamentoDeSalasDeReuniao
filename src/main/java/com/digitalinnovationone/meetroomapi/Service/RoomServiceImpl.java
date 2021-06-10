@@ -1,4 +1,4 @@
-package com.digitalinnovationone.meetroomapi.RoomService;
+package com.digitalinnovationone.meetroomapi.Service;
 
 import com.digitalinnovationone.meetroomapi.dto.request.RoomDTO;
 import com.digitalinnovationone.meetroomapi.dto.response.MessageResponseDTO;
@@ -45,19 +45,27 @@ public class RoomServiceImpl implements RoomService {
     public MessageResponseDTO update(Long id, RoomDTO roomDTO) {
        verifyIfExists(id);
        Room roomToUpdate = roomMapper.toModel(roomDTO);
-       Room updatedRoom = roomRepository.save(roomToUpdate);
-       return createMessageResponse(updatedRoom.getId(), "Updated room with id ");
+       roomRepository.save(roomToUpdate);
+       return createMessageResponse(id, "Updated room with id ");
     }
 
-    @Override
-    public void delete(Long id) {
-        verifyIfExists(id);
-        roomRepository.deleteById(id);
+    public MessageResponseDTO delete(Long id){
+        Room roomToDelete = verifyIfExists(id);
+        roomRepository.delete(roomToDelete);
+        return createMessageResponse(id,"Deleted room with id ");
 
     }
+
+//    @Override
+//    public MessageResponseDTO delete(Long id) {
+//        verifyIfExists(id);
+//        roomRepository.deleteById(id);
+//        return createMessageResponse(id,"Deleted room with id ");
+//    }
+
     private Room verifyIfExists(Long id) {
         return roomRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("Room not found with id "+id));
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     private MessageResponseDTO createMessageResponse(Long id, String message) {

@@ -10,18 +10,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@ControllerAdvice
+@RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ExceptionResource extends ResponseEntityExceptionHandler {
+
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ErrorMessageResponse resourceNotFoundException(ResourceNotFoundException ex, WebRequest request){
-        return new ErrorMessageResponse(404, ex.getLocalizedMessage(), "Not Found", "Resource not found");
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessageResponse resourceNotFound(Exception ex, WebRequest req){
+        return new ErrorMessageResponse(404, ex.getMessage(), "Not Found", "Resource Not Found Exception");
     }
 
     @ExceptionHandler(Exception.class)
