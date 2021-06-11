@@ -3,7 +3,6 @@ package com.digitalinnovationone.meetroomapi.resource;
 import com.digitalinnovationone.meetroomapi.Service.RoomService;
 import com.digitalinnovationone.meetroomapi.dto.request.RoomDTO;
 import com.digitalinnovationone.meetroomapi.dto.response.MessageResponseDTO;
-import com.digitalinnovationone.meetroomapi.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,15 +40,9 @@ public class RoomResource {
     }
 
     @DeleteMapping("/rooms/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public MessageResponseDTO deleteRoom (@PathVariable Long id){
-        return roomService.delete(id);
-
-//    @DeleteMapping("/rooms/{id}")
 //    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public MessageResponseDTO deleteRoom(@PathVariable Long id){
-//       return roomService.delete(id);
-
+    public MessageResponseDTO deleteRoom (@PathVariable Long id) {
+        return roomService.delete(id);
     }
 
 }

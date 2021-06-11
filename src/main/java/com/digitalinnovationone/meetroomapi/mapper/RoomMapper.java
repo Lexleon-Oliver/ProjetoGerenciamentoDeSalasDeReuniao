@@ -14,5 +14,7 @@ public interface RoomMapper {
 
     @Mapping(target = "date", source = "date", dateFormat = "dd-MM-yyyy")
     Room toModel(RoomDTO roomDTO);
+
+    @Mapping(target = "date", source = "date", dateFormat = "dd-MM-yyyy")
     RoomDTO toDTO(Room room);
 }
